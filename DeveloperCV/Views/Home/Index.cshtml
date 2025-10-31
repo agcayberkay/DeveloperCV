@@ -1,0 +1,183 @@
+﻿@model ProfileModel
+
+<section class="hero">
+    <img class="avatar click-zoom" src="@Model.PhotoUrl" alt="@Model.FullName" />
+    <div>
+        <h1 class="title">@Model.FullName</h1>
+        <div class="subtitle">@Model.Title</div>
+
+        <div class="row" id="contact">
+            <span>📍 @Model.Location</span>
+            <a href="tel:@Model.Phone">📞 @Model.Phone</a>
+            <br />
+            <a href="mailto:@Model.Email">✉️ @Model.Email</a>
+            <br />
+            @if (!string.IsNullOrWhiteSpace(Model.Social.LinkedIn))
+            {
+                <a href="@Model.Social.LinkedIn" target="_blank">LinkedIn</a>
+            }
+            <br />
+            @if (!string.IsNullOrWhiteSpace(Model.Social.GitHub))
+            {
+                <a href="@Model.Social.GitHub" target="_blank">GitHub</a>
+            }
+        </div>
+        <br />
+        <div class="muted small">Doğum: @Model.BirthDate — @Model.AgeText</div>
+        <br />
+    </div>
+</section>
+
+<section id="summary" class="card">
+    <h2 class="h2">Özgeçmiş Özeti</h2>
+    @foreach (var p in Model.Summary)
+    {
+        <p>@p</p>
+    }
+</section>
+
+<section id="experience" class="card">
+    <h2 class="h2">İş Deneyimi</h2>
+    @foreach (var e in Model.Experiences)
+    {
+        <div class="exp">
+            <div class="exp-head">
+                <div>
+                    <div class="h3">@e.Title @if(!string.IsNullOrWhiteSpace(e.Company)){
+                    <text>— @e.Company</text>
+                }
+</div>
+                <div class="muted">@e.Location</div>
+            </div>
+            <div class="muted">@e.DateRange</div>
+        </div>
+
+        <ul>
+            @foreach (var b in e.Bullets)
+            {
+                <li>@b</li>
+            }
+        </ul>
+    </div>
+        }
+</section>
+
+<section id="projects" class="card">
+    <h2 class="h2">Projeler</h2>
+    <div class="grid cols">
+        @foreach (var p in Model.Projects)
+        {
+            <div class="proj">
+                <div class="h3">@p.Name</div>
+                <div class="muted">@p.Year</div>
+                <ul>
+                    @foreach (var b in p.Bullets)
+                    {
+                        <li>@b</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</section>
+
+<section id="skills" class="card">
+    <h2 class="h2">Yetenekler</h2>
+
+    <div class="skills">
+        <div>
+            <div class="tag">Programlama</div>
+            <div class="chips">
+                @foreach (var s in Model.Skills.ProgrammingLanguages)
+                {
+                    <span class="chip">@s</span>
+                }
+            </div>
+        </div>
+
+        <div>
+            <div class="tag">Frameworkler</div>
+            <div class="chips">
+                @foreach (var s in Model.Skills.Frameworks)
+                {
+                    <span class="chip">@s</span>
+                }
+            </div>
+        </div>
+
+        <div>
+            <div class="tag">Veritabanı</div>
+            <div class="chips">
+                @foreach (var s in Model.Skills.Databases)
+                {
+                    <span class="chip">@s</span>
+                }
+            </div>
+        </div>
+
+        <div>
+            <div class="tag">Araçlar</div>
+            <div class="chips">
+                @foreach (var s in Model.Skills.Tools)
+                {
+                    <span class="chip">@s</span>
+                }
+            </div>
+        </div>
+
+        <div>
+            <div class="tag">Diğer</div>
+            <div class="chips">
+                @foreach (var s in Model.Skills.Other)
+                {
+                    <span class="chip">@s</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="soft">
+        <div class="tag">Soft Skills</div>
+        <div class="chips">
+            @foreach (var s in Model.SoftSkills)
+            {
+                <span class="chip">@s</span>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="education" class="card">
+    <h2 class="h2">Eğitim</h2>
+    <p>
+        <strong>@Model.Education.Program</strong> — @Model.Education.School (@Model.Education.Year)
+        <span class="muted">GPA: @Model.Education.GPA</span>
+    </p>
+    <p>
+        <strong>Askerlik:</strong> @Model.MilitaryStatus
+    </p>
+</section>
+
+<section class="card">
+    <h2 class="h2">Hobiler</h2>
+    <div class="chips">
+        @foreach (var h in Model.Hobbies)
+        {
+            <span class="chip">@h</span>
+        }
+    </div>
+</section>
+
+<section class="card">
+    <h2 class="h2">Referanslar</h2>
+    <ul>
+        @foreach (var r in Model.References)
+        {
+            <li><strong>@r.Name</strong> — @r.Title, @r.Company (📞 @r.Phone)</li>
+        }
+    </ul>
+</section>
+<div id="photoModal" class="modal">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg" />
+</div>

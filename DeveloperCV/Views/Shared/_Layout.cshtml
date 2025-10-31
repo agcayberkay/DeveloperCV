@@ -1,0 +1,72 @@
+﻿@model ProfileModel
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.FullName — @Model.Title</title>
+    <link rel="stylesheet" href="/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a class="brand" asp-controller="Home" asp-action="Index">&lt;Berkay AĞÇAY/&gt;</a>
+            <nav class="links no-print">
+                <a href="#summary">Özet</a>
+                <a href="#experience">Deneyim</a>
+                <a href="#projects">Projeler</a>
+                <a href="#skills">Yet.</a>
+                <a href="#education">Eğitim</a>
+                <a href="#contact">İletişim</a>
+                <button id="themeToggle" class="btn">Tema</button>
+                <button onclick="window.print()" class="btn">PDF</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="container muted">
+        © @DateTime.UtcNow.Year — @Model.FullName 
+    </footer>
+
+    <script>
+        const key='cv-theme';
+        const apply=t=>document.documentElement.setAttribute('data-theme',t);
+        apply(localStorage.getItem(key) || 'dark');
+        document.getElementById('themeToggle').onclick = () => {
+          const cur=document.documentElement.getAttribute('data-theme');
+          const next=cur==='dark'?'light':'dark';
+          localStorage.setItem(key,next);
+          apply(next);
+        };
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const modal = document.getElementById("photoModal");
+          const modalImg = document.getElementById("modalImg");
+          const avatar = document.querySelector(".click-zoom");
+          const close = document.querySelector(".modal-close");
+
+          if (avatar) {
+              avatar.onclick = () => {
+                  modal.style.display = "block";
+                  modalImg.src = avatar.src;
+              }
+          }
+
+          if (close) {
+              close.onclick = () => modal.style.display = "none";
+          }
+
+          modal.onclick = (e) => {
+              if (e.target === modal) modal.style.display = "none";
+          }
+        });
+    </script>
+</body>
+</html>
